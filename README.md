@@ -1,4 +1,4 @@
-# SupeRR Selector 2.0
+# SupeRR Selector 
 
 An auditable cricket pressure analytics platform built exclusively from the supplied datasets. Source files are retained at the project root and are not overwritten.
 
