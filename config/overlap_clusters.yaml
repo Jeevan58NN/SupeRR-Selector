@@ -1,0 +1,7 @@
+{
+  "candidate_clusters": {
+    "late_chase_rate": {"situations": ["B1", "B9"], "shared_weight": 1.0, "primary_priority": {"B1": 2, "B9": 1}, "reason": "Both represent high required rate in the late chase; retain both records but count shared difficulty once."},
+    "wicket_collapse": {"situations": ["B5", "B7", "B8"], "shared_weight": 1.0, "primary_priority": {"B8": 3, "B7": 2, "B5": 1}, "reason": "These triggers can describe the same collapse sequence; retain their separate situation metrics while selecting one shared delivery contribution."}
+  },
+  "all_other_situations": "independent unless a future documented review establishes direct duplication"
+}

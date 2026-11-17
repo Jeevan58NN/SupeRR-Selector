@@ -1,0 +1,16 @@
+{
+  "rating_scale": [0, 100],
+  "prior_score": 50,
+  "prior_strength_match_equivalents": 5,
+  "prior_sensitivity": [3, 5, 8],
+  "pressure_performance_weight": 0.8,
+  "consistency_weight": 0.2,
+  "consistency_sensitivity": [0.15, 0.20, 0.25],
+  "match_consistency_shrink_matches": 3,
+  "benchmark_minimum_distinct_players": 5,
+  "bootstrap_match_resamples": 300,
+  "normal_prior_strength_innings": 10,
+  "normal_prior_sensitivity_innings": [5, 10, 15],
+  "normal_pressure_intensity_max": 0.2,
+  "opponent_factors": {"IPL": 1.0, "International Tier 1": 1.0, "International Tier 2": 0.8, "International Tier 3": 0.6, "Lowest international tier": 0.4, "A-team pool": 0.7}
+}

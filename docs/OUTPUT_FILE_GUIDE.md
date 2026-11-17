@@ -1,0 +1,33 @@
+# SupeRR Selector CSV output guide
+
+All generated outputs are under `data/interim`, `data/processed`, or `data/outputs`. Every scenario-folder output is keyed by `strict_exact_context` or `proxy_inclusive`; never combine the scenarios without explicitly identifying them.
+
+| Output group | Files | Contents and dependencies |
+|---|---|---|
+| Source audit | `source_file_manifest.csv`, `duplicate_file_report.csv`, `schema_validation.csv`, `data_quality_summary.csv` in `data/interim/` | Input hashes, duplicate presence/decision, required schema, source row/missing/duplicate counts. Source columns and hashes come directly from uploaded files; no metrics are estimated. Rebuilt by `pipeline.py`. |
+| Master data | `player_master.csv`, `team_master.csv`, `match_master.csv`, `playing_appearances.csv` in `data/processed/` | ID-keyed names, team/competition/match joins and XI/impact player appearances. Appearance count uses distinct match where `is_played` OR `is_impact`. Used by API and player ratings. |
+| Delivery records | `cleaned_deliveries.csv` in `data/processed/`; `delivery_match_state.csv` in each scenario | Canonical delivery facts and reconstructed state. Source batter runs, extras category, dismissal, IDs and over/ball feed legal balls, score, target, CRR/RRR, wickets, partnership, phase, quality flags. Strict score becomes unavailable after uncertain extra; proxy totals are flagged lower bounds. |
+| Innings and phases | `innings_summary.csv`, `score_reconstruction.csv` in scenario folders | One row per innings with innings completion, allocation, target source and exact/proxy score status; derived from delivery state and match metadata. |
+| Pressure episodes | `batting_pressure_episodes.csv`, `bowling_pressure_episodes.csv`, memberships, `delivery_pressure_labels.csv`, `pressure_intensity_history.csv`, `overlap_resolution_log.csv` | Trigger-to-ending windows, eligible player delivery participation, dynamic intensity and overlap contribution. Built by situation rules from state; counts are episodes, not independent matches. |
+| Player metrics | `batting_overall_metrics.csv`, `bowling_overall_metrics.csv` in `data/processed/`; normal and pressure performance tables in scenario folders | Role-appropriate rates and counts. Batter denominators use balls faced, bowler economy uses legal balls. Normal includes eligible faded-pressure deliveries only; missing measures remain null. |
+| Rating stages | `situation_observations.csv`, situation rating tables, `player_episode_scores.csv`, `player_match_scores.csv`, `player_reliability.csv` | Match/situation aggregates, peer scores, descriptive episode results, distinct player-match evidence, confidence and uncertainty. Match-level rather than delivery-level evidence feeds final ranking. |
+| Rankings | `all_player_rankings.csv`, role-specific full lists, `top10_batters.csv`, `top10_bowlers.csv` | 0–100 final and ranking score, role-specific rank, pressure/normal ratings, consistency, CI, evidence counts, best/worst situations and context. Top tens are first ten rows of full role ranking. |
+| Sensitivity and context | `ranking_sensitivity.csv`, `pressure_vs_normal_comparison.csv`, `player_opponent_tier_performance.csv` | Pressure prior strengths, consistency alternatives, normal-innings priors of 5/10/15, unweighted-opponent comparator, normal/pressure ratings and observed tier context. |
+| Scenario comparison | `scenario_rank_changes.csv`, `scenario_rating_changes.csv`, `scenario_situation_changes.csv` in `data/outputs/scenario_comparison/` | Outer-joined strict/proxy rank/rating changes, top-ten entering/leaving status and situation score changes. Missing side means absent evidence, not zero. |
+
+The pipeline also writes `schema_validation.csv` and raw source audit fields. Units and formulas are explained in `METHODOLOGY.md`; cricket trigger conditions are in `PRESSURE_SITUATIONS.md`. All current generated CSVs are listed in the tables below. Some requested breakdowns remain limited by supplied fields; for example, bowling economy is proxy-based in context summaries when extras are uncertain.
+
+Player-wide context files are emitted to `data/processed/batting_context_metrics.csv` and `bowling_context_metrics.csv`. Each row identifies a `context_dimension` and `context_value` (competition, format, season/year, innings, phase, over, opponent team/tier, wickets/score at entry, or batting position), with distinct matches, innings, runs, balls and role-specific rates. These are descriptive baseline aggregates; bowler rates are lower-bound proxy economy because source extras do not fully reconstruct bowler-conceded runs.
+
+## Detailed context breakdowns (`data/processed/`)
+
+| File | Contents and basis | Reliability notes |
+|---|---|---|
+| `phase_allocation.csv` | Match/innings allotted legal balls, Powerplay/death allocation and observed legal balls in each phase. | Phase counts use legal deliveries only. |
+| `batter_entries.csv` | First observed striker entry by match/innings with position, over/ball, score, wickets, remaining balls, CRR/RRR, partnership and phase. | Exact and proxy state values remain separate; the first striker observation is used as the batting entry. |
+| `partnerships.csv` | Match/innings/partnership windows, batter IDs, legal balls, proxy runs, wickets and score range. | Exact runs are retained only when no-extra and running-score reliability support them. |
+| `bowler_spell_summary.csv` | Bowler-over delivery count, legal balls, runs, wickets, dots, wides/no-balls and phase. | Exact economy is null when all bowler-conceded runs in the over are not known; proxy economy is separately labeled. |
+| `batting_phase_metrics.csv`, `batting_over_metrics.csv`, `batting_position_metrics.csv` | Batter runs, balls, dots, boundaries, dismissals and strike rate by phase, over, and batting position. | Batter-ball denominator excludes wides and includes no-balls. |
+| `bowling_phase_metrics.csv`, `bowling_over_metrics.csv` | Bowler deliveries, legal balls, exact/proxy conceded runs, wickets, dots and economy by phase and over. | Exact economy and exact dot percentage use known-run evidence; proxy rates remain separate. |
+
+These files are generated by `src/superr_selector/metrics/context_exports.py`. Entry wicket and score bands are taken from each player's first observed delivery state in that innings and carried across that player's innings records. Context aggregations use the role-specific relevant opponent (bowling team for a batter, batting team for a bowler). These are baseline descriptive splits; situation-level pressure adjustments remain in scenario-specific rating outputs.

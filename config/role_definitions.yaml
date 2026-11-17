@@ -1,0 +1,6 @@
+{
+  "batting_position_groups": {"opener": [1, 2], "top_middle": [3, 4, 5], "finisher": [6, 7], "tail": [8, 9, 10, 11]},
+  "bowling_phase_flags": ["powerplay", "middle", "death"],
+  "role_assignment": "usage distribution only; preserve all phase shares and do not assign roles from reputation or delivery style",
+  "all_rounder_min_innings": 15
+}

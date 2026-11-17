@@ -1,0 +1,9 @@
+{
+  "powerplay": "ceil(0.30 * allotted_legal_balls)",
+  "death_overs": "ceil(0.25 * allotted_overs)",
+  "legal_ball_extras_codes": {"illegal": [1, 2], "legal_or_uncertain": [3, 4, 5, 6, 7]},
+  "batter_ball_faced": "exclude wide; include no-ball and all other deliveries",
+  "crr": "team runs * 6 / legal balls used",
+  "rrr": "(verified target - current team score) * 6 / legal balls remaining; chase only",
+  "super_over_in_main_rankings": false
+}

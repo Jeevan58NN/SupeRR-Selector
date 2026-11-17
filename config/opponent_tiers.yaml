@@ -1,0 +1,19 @@
+{
+  "weights": {
+    "IPL": 1.0,
+    "International Tier 1": 1.0,
+    "International Tier 2": 0.8,
+    "International Tier 3": 0.6,
+    "Lowest international tier": 0.4,
+    "A-team pool": 0.7,
+    "Other T20": 0.7
+  },
+  "teams": {
+    "International Tier 1": ["India", "Australia", "England", "South Africa", "New Zealand"],
+    "International Tier 2": ["Pakistan", "West Indies", "Sri Lanka", "Afghanistan", "Bangladesh"],
+    "International Tier 3": ["Nepal", "Netherlands", "Scotland", "Ireland", "Zimbabwe", "USA", "Namibia"],
+    "Lowest international tier": ["Oman", "Canada", "Hong Kong", "Japan", "Kuwait", "Singapore", "United Arab Emirates"],
+    "A-team pool": ["Afghanistan A", "Bangladesh A", "India A", "Pakistan A", "Sri Lanka A"]
+  }
+}
+

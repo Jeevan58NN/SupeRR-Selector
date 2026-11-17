@@ -1,0 +1,7 @@
+file_name,rows,columns,missing_required,exact_duplicate_rows,valid
+ball_by_ball.csv,180723,33,,0,True
+matches.csv,883,22,,0,True
+competitions.csv,141,4,,0,True
+playing_eleven.csv,28381,9,,0,True
+competition_team_player_mapping.csv,6413,6,,0,True
+teams.csv,353,3,,0,True

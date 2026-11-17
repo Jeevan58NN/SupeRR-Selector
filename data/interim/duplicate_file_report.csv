@@ -1,0 +1,4 @@
+file_name,present,sha256,exact_duplicate_rows,canonical_source,decision
+ball_by_ball.csv,True,dd59a9837220c9ad3992124bf47ef634bfc2e76e4709d7f77e782c17a4acf3af,0.0,True,use one supplied canonical ball dataset
+ball_by_ball_repaired(1).csv,False,,,False,not supplied; cannot compare content/hash
+ball_by_ball(1).csv,False,,,False,not supplied; cannot compare content/hash
